@@ -1,0 +1,94 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger Rest
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /message:
+    get:
+      operationId: message.read_all
+      tags:
+        - Message
+      summary: Read the entire list of message
+      description: Read the list of message
+      parameters:
+        - name: length
+          in: query
+          type: integer
+          description: Number of Message to get from Message
+          required: false
+        - name: offset
+          in: query
+          type: integer
+          description: Offset from beginning of list where to start gathering message
+          required: false
+      responses:
+        200:
+          description: Successfully read message list operation
+          schema:
+            type: array
+            items:
+              properties:
+                message:
+                  type: string
+                id:
+                  type: integer
+                timestamp:
+                  type: string
+
+    post:
+      operationId: message.create
+      tags:
+        - Message
+      summary: Create a message and add it to the message list
+      description: Create a new message in the message list
+      parameters:
+        - name: messages
+          in: body
+          description: Message to create
+          required: True
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: message to create
+              id:
+                type: integer
+                description: message id to create
+      responses:
+        201:
+          description: Successfully created message in list
+
+  /message/{id}:
+    get:
+      operationId: message.read_one
+      tags:
+        - Message
+      summary: Read one message from the message list
+      description: Read one message from the message list
+      parameters:
+        - name: id
+          in: path
+          description: id of the message to get from the message list
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read message from message list operation
+          schema:
+            properties:
+              message:
+                type: string
+              id:
+                type: integer
+              timestamp:
+                type: string
